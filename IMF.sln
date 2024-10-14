@@ -1,0 +1,36 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.10.35027.167
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "IMF.DAL", "IMF.DAL\IMF.DAL.csproj", "{F6C09EA3-EA5B-4860-8681-622CF292FF99}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "IMF.Api", "IMF.Api\IMF.Api.csproj", "{11487712-912A-4397-AED0-651145F4AA33}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		LiveUAT|Any CPU = LiveUAT|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{F6C09EA3-EA5B-4860-8681-622CF292FF99}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F6C09EA3-EA5B-4860-8681-622CF292FF99}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F6C09EA3-EA5B-4860-8681-622CF292FF99}.LiveUAT|Any CPU.ActiveCfg = LiveUAT|Any CPU
+		{F6C09EA3-EA5B-4860-8681-622CF292FF99}.LiveUAT|Any CPU.Build.0 = LiveUAT|Any CPU
+		{F6C09EA3-EA5B-4860-8681-622CF292FF99}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F6C09EA3-EA5B-4860-8681-622CF292FF99}.Release|Any CPU.Build.0 = Release|Any CPU
+		{11487712-912A-4397-AED0-651145F4AA33}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{11487712-912A-4397-AED0-651145F4AA33}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{11487712-912A-4397-AED0-651145F4AA33}.LiveUAT|Any CPU.ActiveCfg = LiveUAT|Any CPU
+		{11487712-912A-4397-AED0-651145F4AA33}.LiveUAT|Any CPU.Build.0 = LiveUAT|Any CPU
+		{11487712-912A-4397-AED0-651145F4AA33}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{11487712-912A-4397-AED0-651145F4AA33}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {7E181143-3987-4306-BAAB-5F6DB968E375}
+	EndGlobalSection
+EndGlobal
