@@ -56,6 +56,10 @@ namespace IMF.Api.Controllers
                 var company = _mapper.Map<Company>(companyDto);
                 _unitOfWork.Company.Add(company);
                 await _unitOfWork.SaveChangesAsync();
+
+                //company = await _unitOfWork.Company.GetAsync(c => c.Id == company.Id);
+                companyDto = _mapper.Map<CompanyDTO>(company);
+
                 return CreatedAtAction(nameof(GetCompany), new { id = company.Id }, companyDto);
             }
             catch (Exception ex)
