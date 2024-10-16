@@ -7,7 +7,9 @@ namespace IMF.Api.Services
     {
         public MappingProfile()
         {
-            CreateMap<CompanyDTO, Company>();
+            CreateMap<CompanyDTO, Company>()
+            .ForAllMembers(opts => opts.Condition((src, dest, srcMember) => srcMember != null));
+
             CreateMap<Company, CompanyDTO>();
         }
     }

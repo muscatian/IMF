@@ -11,6 +11,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Tokens;
 using System;
 using System.Text;
+using Microsoft.AspNetCore.Http;
 
 
 namespace IMF.Api.Configurations
@@ -22,16 +23,11 @@ namespace IMF.Api.Configurations
             
 
             builder.Services.AddHttpContextAccessor();
-            //services.AddAutoMapper(cfg => cfg.AddMaps(AppDomain.CurrentDomain.GetAssemblies()));
             builder.Services.AddAutoMapper(typeof(Program));
-
             var connectionString = ConfigurationSetup.GetConnectionString(builder);
-            services.AddDbContext<ApplicationDbContext>(options =>
-                options.UseSqlServer(connectionString));
-
+            services.AddDbContext<ApplicationDbContext>(options => options.UseSqlServer(connectionString));
             services.AddControllers();
             services.AddScoped<JWTService>();
-
             services.AddIdentityCore<ApplicationUser>(options =>
             {
                 options.Password.RequiredLength = 6;
@@ -47,7 +43,6 @@ namespace IMF.Api.Configurations
             .AddSignInManager<SignInManager<ApplicationUser>>()
             .AddUserManager<UserManager<ApplicationUser>>()
             .AddDefaultTokenProviders();
-
             services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
                 .AddJwtBearer(options =>
                 {
@@ -61,11 +56,8 @@ namespace IMF.Api.Configurations
                         IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["JWT:Key"] ?? throw new InvalidOperationException("JWT Key not found."))),
                     };
                 });
-
             builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
-
             var corsSettings = ConfigurationSetup.GetCorsSettings(builder);
-
             services.AddCors(options =>
             {
                 options.AddPolicy("CustomCorsPolicy", policy =>
@@ -94,5 +86,4 @@ namespace IMF.Api.Configurations
             });
         }
     }
-
 }

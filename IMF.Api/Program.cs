@@ -2,12 +2,14 @@ using Microsoft.AspNetCore.Builder;
 using System;
 using Serilog;
 using IMF.Api.Configurations;
+using Microsoft.Extensions.DependencyInjection;
+using System.Threading.Tasks;
 
 namespace IMF.Api
 {
     public class Program
     {
-        public static void Main(string[] args)
+        public static async Task Main(string[] args)
         {
             
             try
@@ -19,9 +21,15 @@ namespace IMF.Api
                 builder.Services.AddCustomServices(builder);
 
                 var app = builder.Build();
-
+                
                 app.ConfigureMiddleware();
 
+                // Seed roles
+                using (var scope = app.Services.CreateScope())
+                {
+                    var services = scope.ServiceProvider;
+                    await SeedData.SeedRoles(services);
+                }
                 app.Run();
             }
             catch (Exception ex)

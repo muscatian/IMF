@@ -53,7 +53,7 @@ namespace IMF.Api.Controllers
                 if (user == null)
                     return NotFound($"{User.FindFirst(ClaimTypes.Name)?.Value} NotFound");
 
-                return CreateApplicationDTO(user);
+                return await CreateApplicationDTOAsync(user);
             }
             catch(Exception ex)
             {
@@ -77,7 +77,7 @@ namespace IMF.Api.Controllers
                 if (!result.Succeeded)
                     return Unauthorized("UserName or Password is not valid");
 
-                return CreateApplicationDTO(user);
+                return await CreateApplicationDTOAsync(user);
             }
             catch (Exception ex)
             {
@@ -89,11 +89,6 @@ namespace IMF.Api.Controllers
         [HttpPost("register")]
         public async Task<ActionResult> Register(RegisterDTO model)
         {
-            _logger.LogInformation("Register Method");
-            _logger.LogInformation(model.FirstName);
-            _logger.LogInformation(model.LastName);
-            _logger.LogInformation(model.Password);
-
             try
             {
                 if (await checkEmailExistsasync(model.Email))
@@ -112,6 +107,14 @@ namespace IMF.Api.Controllers
 
                 if (!result.Succeeded) return BadRequest(result.Errors);
 
+                // Assign roles to the newly created user
+                if (model.Roles != null)
+                {
+                    var roles = model.Roles;// new[] { "UserRole" }; // Modify this array to include desired roles
+                    var roleResult = await _userManager.AddToRolesAsync(UserToAdd, roles);
+                    if (!roleResult.Succeeded) return BadRequest(roleResult.Errors);
+                }
+
                 return Ok("Your account has been created you can login");
             }
             catch (Exception ex)
@@ -124,27 +127,25 @@ namespace IMF.Api.Controllers
         }
 
         #region Private Helper Methods
-
-        private UserDTO CreateApplicationDTO(ApplicationUser user) 
+        private async Task<UserDTO> CreateApplicationDTOAsync(ApplicationUser user)
         {
             try
             {
+                var roles = await _userManager.GetRolesAsync(user);
+
                 return new UserDTO
                 {
                     FirstName = user.FirstName,
                     LastName = user.LastName,
-                    Jwt = _jwtService.CreateJWT(user)
+                    Jwt = await _jwtService.CreateJWTAsync(user),
+                    Roles = roles
                 };
             }
             catch (Exception ex)
             {
                 _logger.LogError(ex.Message);
-                return new UserDTO
-                {
-                   
-                };
+                return new UserDTO { };
             }
-            
         }
 
         private async Task<bool> checkEmailExistsasync(string email)

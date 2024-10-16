@@ -24,12 +24,10 @@ namespace IMF.DAL.Repository
                 _db = db;
                 this.dbSet = _db.Set<T>();
             }
-
             public void Add(T entity)
             {
                 dbSet.Add(entity);
             }
-
 
             //IEnumerable<T> IRepository<T>.GetAll(Expression<Func<T, bool>> filter, Func<IQueryable<T>, IOrderedQueryable<T>> orderBy, string includeProperties)
             public IEnumerable<T> GetAll(Expression<Func<T, bool>> filter, string includeProperties)
