@@ -12,6 +12,7 @@ using Microsoft.IdentityModel.Tokens;
 using System;
 using System.Text;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
 
 
 namespace IMF.Api.Configurations
@@ -26,7 +27,22 @@ namespace IMF.Api.Configurations
             builder.Services.AddAutoMapper(typeof(Program));
             var connectionString = ConfigurationSetup.GetConnectionString(builder);
             services.AddDbContext<ApplicationDbContext>(options => options.UseSqlServer(connectionString));
-            services.AddControllers();
+            
+            services.AddControllers().ConfigureApiBehaviorOptions(options =>
+            {
+                options.InvalidModelStateResponseFactory = context =>
+                {
+                    var problemDetails= new ValidationProblemDetails(context.ModelState)
+                    {
+                        Type = "https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/400",
+                        Title = "One or more model validation errors occurred.",
+                        Detail = "Please review the errors provided.",
+                    };
+
+                    return new BadRequestObjectResult(problemDetails);
+                };
+            });
+
             services.AddScoped<JWTService>();
             services.AddIdentityCore<ApplicationUser>(options =>
             {

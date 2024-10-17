@@ -54,7 +54,6 @@ namespace IMF.Api.Controllers
                 _unitOfWork.Company.Add(company);
                 await _unitOfWork.SaveChangesAsync();
 
-                //company = await _unitOfWork.Company.GetAsync(c => c.Id == company.Id);
                 companyDto = _mapper.Map<CompanyDTO>(company);
 
                 return CreatedAtAction(nameof(GetCompany), new { id = company.Id }, companyDto);
@@ -110,6 +109,8 @@ namespace IMF.Api.Controllers
                 _mapper.Map(companyDto, company);
                 _unitOfWork.Company.Update(company);
                 await _unitOfWork.SaveChangesAsync();
+
+                companyDto = _mapper.Map<CompanyDTO>(company);
 
                 return Ok(companyDto); // Returning the updated company
             }

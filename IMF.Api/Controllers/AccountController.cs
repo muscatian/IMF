@@ -12,6 +12,7 @@ using System;
 
 namespace IMF.Api.Controllers
 {
+    [Authorize]
     [Route("api/[controller]")]
     [ApiController]
     public class AccountController : ControllerBase
@@ -32,7 +33,7 @@ namespace IMF.Api.Controllers
             _signInManager = signInManager;
             _userManager = userManager;
         }
-        [Authorize]
+        
         [HttpGet("refresh-user-token")]
         public async Task<ActionResult<UserDTO>> RefreshUserToken()
         {
@@ -62,7 +63,8 @@ namespace IMF.Api.Controllers
             }
             
         }
-
+        
+        [AllowAnonymous]
         [HttpPost("login")]
         public async Task<ActionResult<UserDTO>> Login(LoginDTO model)
         {
@@ -86,6 +88,7 @@ namespace IMF.Api.Controllers
             }
         }
 
+        [AllowAnonymous]
         [HttpPost("register")]
         public async Task<ActionResult> Register(RegisterDTO model)
         {
